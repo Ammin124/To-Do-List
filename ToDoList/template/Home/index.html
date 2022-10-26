@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home page
+{% endblock %}
+
+
+{% block content %}
+<!-- ============================= Post Add Section =========================== -->
+    <div class="container col-md-auto">
+        <div class="row justify-content-md-center">
+            <div class="col-md-4">
+                <br>
+                <h2 class="text-center">To-Do List</h2>
+                <section class="add_post">
+                    <form class="form-inline " method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p}}
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="item" placeholder="Add To-Do List">
+                            <div class="input-group-append">
+                                <button class="btn btn-success" type="submit"> Add </button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+
+<!-- ============================= End Post Add Section =========================== -->
+<!-- ============================= Table Data Section =========================== -->
+<div class="container mt-2">
+    <table class="table table-bordered">
+        {% for list in lists %}
+            {% if list.completed %}
+                <tr class="table-primary">
+                    <td class="striker"><a style=" text-decoration:none; color: black" href="{% url 'edit' list.id %}">{{ list.item }}</a></td>
+                    <td class="text-center"><a style=" text-decoration:none; color: black" href="{% url 'uncross' list.id %}">Uncross</a></td>
+                    <td class="text-center"><a style=" text-decoration:none; color: black" href="{% url 'delete' list.id %}">Delete</a></td>
+                </tr>
+            {% else %}
+            <tr>
+                <td><a style=" text-decoration:none; color: black" href="{% url 'edit' list.id %}">{{ list.item }}</a></td>
+                <td class="text-center"><a style=" text-decoration:none; color: black" href="{% url 'cross_off' list.id %}">Cross OFF</a></td>
+                <td class="text-center"><a style=" text-decoration:none; color: black" href="{% url 'delete' list.id %}">Delete</a></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+</div>
+<!-- ============================= End Table Data Section =========================== -->
+
+{% endblock %}
